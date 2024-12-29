@@ -5,6 +5,7 @@ function Button({
   className = "",
   children,
   disabled = false,
+  behaviour = "button",
 }) {
   const buttonType = {
     primary: "bg-blue-500 text-white",
@@ -17,6 +18,7 @@ function Button({
 
   return (
     <button
+      type={behaviour}
       disabled={disabled}
       onClick={onClick}
       className={`rounded-xl ${className} w-fit cursor-pointer px-4 py-2 text-[1.4rem] transition-all duration-200 ease-in ${disabled ? "cursor-not-allowed bg-gray-500 text-black" : nonDiableStyles}`}
