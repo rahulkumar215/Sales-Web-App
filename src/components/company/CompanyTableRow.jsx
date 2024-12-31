@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // CompanyTableRow.js
 import Button from "../universal/Button";
 import EditIcon from "../../assets/edit.svg?react";
@@ -27,6 +28,7 @@ const CompanyTableRow = ({ company, handleEdit, handleDelete }) => (
         "No Additional Contacts"
       )}
     </td>
+    <td className="px-4 py-2">{company.insideSalesExecutive}</td>
     <td className="px-4 py-2">
       <Button type="" className="p-0" onClick={() => handleEdit(company)}>
         <EditIcon className="size-[2rem] fill-blue-600" />

@@ -1,10 +1,8 @@
 import { useState } from "react";
-import Button from "../universal/Button";
-import AddCompany from "./AddCompany";
 import Search from "../universal/Search";
-import CompanyTable from "./CompanyTable";
-import { v4 as uuidv4 } from "uuid";
 import Overlay from "../universal/Overlay";
+import ContactTable from "./ContactTable";
+import UpdateContactStatus from "./UpdateContactStatus";
 
 const dummyData = [
   {
@@ -104,17 +102,15 @@ const dummyData = [
   },
 ];
 
-function Company() {
+function ContactPoints() {
+  const [contacts, setContacts] = useState(dummyData);
   const [showModal, setShowModal] = useState(false);
-  const [companies, setCompanies] = useState(dummyData);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editObj, setEditObj] = useState();
+  const [contactToUpdate, setContactToUpdate] = useState("");
 
-  // Derived state. These are the companies that will actually be displayed
-  const searchedCompanies =
+  const searchedContacts =
     searchQuery.length > 0
-      ? companies.filter((comp) =>
+      ? contacts.filter((comp) =>
           Object.values(comp)
             .flatMap((value) =>
               Array.isArray(value)
@@ -125,75 +121,26 @@ function Company() {
             .toLowerCase()
             .includes(searchQuery.toLowerCase()),
         )
-      : companies;
+      : contacts;
 
-  function handleAddCompanies(data) {
-    console.log(data);
-    const newData = {
-      id: uuidv4(),
-      ...data,
-    };
-    console.log(newData);
-    setCompanies((prev) => [...prev, newData]);
+  function handleUpdate(contact) {
+    console.log(contact);
+    setContactToUpdate(contact);
+    setShowModal(true);
   }
 
-  const handleDelComp = (id) => {
-    setCompanies((prev) => prev.filter((comp) => comp.id !== id));
-  };
-
-  const handleShowEditCompModel = (company) => {
-    setShowEditModal(true);
-    setEditObj(company);
-    console.log(company);
-  };
-
-  const handleEditComp = (id, data) => {
-    setCompanies((prev) =>
-      prev.map((company) => (company.id === id ? { id, ...data } : company)),
-    );
-  };
-
   return (
-    <div className="row-start-1 row-end-3 grid grid-cols-2 grid-rows-[max-content_max-content_1fr] items-center p-8">
-      <Button
-        className="col-start-1 col-end-3"
-        onClick={() => setShowModal(true)}
-      >
-        Add Company
-      </Button>
-      <Search
-        className="mt-4"
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <CompanyTable
-        companies={searchedCompanies}
-        onDelComp={handleDelComp}
-        handleShowEditCompModel={handleShowEditCompModel}
-      />
-
+    <div className="row-start-1 row-end-3 grid grid-cols-2 grid-rows-[max-content_max-content] items-center p-8">
+      <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <ContactTable contacts={searchedContacts} handleUpdate={handleUpdate} />
       {showModal && (
         <>
           <Overlay onClick={() => setShowModal(false)} />
-          <AddCompany
-            closeModel={() => setShowModal(false)}
-            onAddCompany={handleAddCompanies}
-          />
-        </>
-      )}
-
-      {showEditModal && (
-        <>
-          <Overlay onClick={() => setShowEditModal(false)} />
-          <AddCompany
-            data={editObj}
-            onEdit={handleEditComp}
-            closeModel={() => setShowEditModal(false)}
-          />
+          <UpdateContactStatus contact={contactToUpdate} />
         </>
       )}
     </div>
   );
 }
 
-export default Company;
+export default ContactPoints;

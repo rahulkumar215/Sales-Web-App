@@ -15,6 +15,9 @@ const CompanyTableHeader = () => (
         Alternate Contact No
       </th>
       <th className="px-4 py-2 text-left text-gray-600">Additional Contacts</th>
+      <th className="px-4 py-2 text-left text-gray-600">
+        Inside Sales Executive
+      </th>
       <th className="px-4 py-2 text-left text-gray-600">Actions</th>
     </tr>
   </thead>

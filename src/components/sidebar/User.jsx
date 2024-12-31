@@ -8,7 +8,7 @@ function User() {
       />
       <h3 className="self-end text-[1.6rem] font-normal">Emma Wattson</h3>
       <h4 className="self-baseline text-[1.1rem] font-medium opacity-80">
-        Admin
+        Inside Sales Executive
       </h4>
     </div>
   );
